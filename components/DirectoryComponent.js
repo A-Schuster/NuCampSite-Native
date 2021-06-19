@@ -18,7 +18,6 @@ class Directory extends Component {
     title: 'Directory'
   };
 
-  onP
 
   renderDirectoryItem = ({item}) => {
     const { navigate } = this.props.navigation;
