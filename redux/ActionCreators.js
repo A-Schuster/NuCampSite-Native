@@ -138,3 +138,14 @@ export const addPromotions = promotions => ({
 export const promotionsLoading = () => ({
   type: ActionTypes.PROMOTIONS_LOADING,
 })
+
+export const postFavorite = campsiteId => dispatch => {
+  setTimeout(() => {
+    dispatch(addFavorite(campsiteId));
+  },2000)
+}
+
+export const addFavorite = campsiteId => ({
+  type: ActionTypes.ADD_FAVORITE,
+  payload: campsiteId
+})
