@@ -60,7 +60,6 @@ class Home extends Component {
     }
 
     componentDidMount(){
-      alert("derp")
       this.animate()
     }
 
