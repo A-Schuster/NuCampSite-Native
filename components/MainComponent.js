@@ -3,6 +3,7 @@ import Directory from './DirectoryComponent';
 import Home from './HomeComponent'
 import CampsiteInfo from './CampsiteInfoComponent';
 import About from './AboutComponent';
+import Favorites from './FavoritesComponent';
 import Contact from './ContactComponent';
 import Constants from 'expo-constants';
 import Reservation from './ReservationComponent';
@@ -99,6 +100,7 @@ const ContactNavigator = createStackNavigator(
       })
   }
 );
+
 const ReservationNavigator = createStackNavigator(
   {
       Reservation: { screen: Reservation }
@@ -114,6 +116,29 @@ const ReservationNavigator = createStackNavigator(
           },
           headerLeft: <Icon
               name='tree'
+              type='font-awesome'
+              iconStyle={styles.stackIcon}
+              onPress={() => navigation.toggleDrawer()}
+          />
+      })
+  }
+);
+
+const FavoritesNavigator = createStackNavigator(
+  {
+      Favorites: { screen: Favorites }
+  },
+  {
+      defaultNavigationOptions: ({navigation}) => ({
+          headerStyle: {
+              backgroundColor: '#5637DD'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+              color: '#fff'
+          },
+          headerLeft: <Icon
+              name='heart'
               type='font-awesome'
               iconStyle={styles.stackIcon}
               onPress={() => navigation.toggleDrawer()}
@@ -197,6 +222,19 @@ const MainNavigator = createDrawerNavigator(
           drawerIcon: ({tintColor}) => (
               <Icon
                   name='tree'
+                  type='font-awesome'
+                  size={24}
+                  color={tintColor}
+              />
+          )
+      }
+  },
+  Favorites: {
+      screen: FavoritesNavigator,
+      navigationOptions: {
+          drawerIcon: ({tintColor}) => (
+              <Icon
+                  name='heart'
                   type='font-awesome'
                   size={24}
                   color={tintColor}
