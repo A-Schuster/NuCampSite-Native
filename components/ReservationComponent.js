@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import { View, Text, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Picker, Switch, Button, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as Animatable from 'react-native-animatable'
 
 export class Reservation extends Component {
   constructor(props){
@@ -9,18 +10,12 @@ export class Reservation extends Component {
       campers: 1,
       hikeIn: false,
       date: new Date(),
-      showCalendar: false,
-      showModal: false
+      showCalendar: false
     }
   }
 
   static navigationOptions = {
     title: 'Reserve Campsite'
-  }
-
-
-  toggleModal(){
-    this.setState({showModal: !this.state.showModal})
   }
 
   resetForm(){
@@ -33,29 +28,55 @@ export class Reservation extends Component {
     })
   }
 
+   getFormattedDate(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return month + '/' + day + '/' + year;
+}
+
   handleReservation(){
     console.log(JSON.stringify(this.state))
-    this.toggleModal()
+    Alert.alert(
+      'Begin Search?',
+      'Number of Campers: '+ this.state.campers +
+      '\n\nHike-In? '+ this.state.hikeIn +
+      '\n\nDate: ' + this.getFormattedDate(this.state.date),
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+        onPress: () => this.resetForm()
+      },
+      {
+        text: 'OK',
+        onPress: () => this.resetForm()
+      }
+    ],
+    {cancelable: false}
+    )
   }
 
   render(){
     return(
       <ScrollView>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Number of Campers</Text>
-          <Picker
-            style={styles.formItem}
-            selectedValue={this.state.campers}
-            onValueChange={itemValue => this.setState({campers: itemValue})}
-          >
-            <Picker.Item label="1" value="1"/>
-            <Picker.Item label="2" value="2"/>
-            <Picker.Item label="3" value="3"/>
-            <Picker.Item label="4" value="4"/>
-            <Picker.Item label="5" value="5"/>
-            <Picker.Item label="6" value="6"/>
-          </Picker>
-        </View>
+        <Animatable.View animation="zoomIn" duration={2000} delay={1000}>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Number of Campers</Text>
+            <Picker
+              style={styles.formItem}
+              selectedValue={this.state.campers}
+              onValueChange={itemValue => this.setState({campers: itemValue})}
+            >
+              <Picker.Item label="1" value="1"/>
+              <Picker.Item label="2" value="2"/>
+              <Picker.Item label="3" value="3"/>
+              <Picker.Item label="4" value="4"/>
+              <Picker.Item label="5" value="5"/>
+              <Picker.Item label="6" value="6"/>
+            </Picker>
+          </View>
         <View style={styles.formRow}>
           <Text style={styles.formLabel}>Hike-In?</Text>
           <Switch
@@ -92,33 +113,7 @@ export class Reservation extends Component {
             accessibilityLabel={'Tap me to search for available campsites to reserve'}
           />
         </View>
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.showModal}
-          onRequestClose={() => this.toggleModal()}
-        >
-          <View style={styles.modal}>
-            <Text style={styles.modalTitle}>Search Campsite Reservations</Text>
-            <Text style={styles.modalText}>
-              Number of Campers: {this.state.campers}
-            </Text>
-            <Text style={styles.modalText}>
-              Hike-In?: {this.state.hikeIn ? 'Yes' : "No"}
-            </Text>
-            <Text style={styles.modalText}>
-              Date: {this.state.date.toLocaleDateString('en-US')}
-            </Text>
-            <Button
-              onPress={() => {
-                this.toggleModal()
-                this.resetForm()
-              }}
-              color="#5637DD"
-              title="Close"
-            />
-          </View>
-        </Modal>
+        </Animatable.View>
       </ScrollView>
     )
   }
