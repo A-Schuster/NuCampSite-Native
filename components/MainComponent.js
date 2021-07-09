@@ -3,6 +3,7 @@ import Directory from './DirectoryComponent';
 import Home from './HomeComponent'
 import CampsiteInfo from './CampsiteInfoComponent';
 import About from './AboutComponent';
+import Login from './LoginComponent';
 import Favorites from './FavoritesComponent';
 import Contact from './ContactComponent';
 import Constants from 'expo-constants';
@@ -147,6 +148,29 @@ const FavoritesNavigator = createStackNavigator(
   }
 );
 
+const LoginNavigator = createStackNavigator(
+  {
+      Login: { screen: Login }
+  },
+  {
+      defaultNavigationOptions: ({navigation}) => ({
+          headerStyle: {
+              backgroundColor: '#5637DD'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+              color: '#fff'
+          },
+          headerLeft: <Icon
+              name='sign-in'
+              type='font-awesome'
+              iconStyle={styles.stackIcon}
+              onPress={() => navigation.toggleDrawer()}
+          />
+      })
+  }
+);
+
 const HomeNavigator = createStackNavigator(
   {
       Home: { screen: Home }
@@ -190,91 +214,106 @@ const CustomDrawerContentComponent = props => (
 
 const MainNavigator = createDrawerNavigator(
   {
+    Login: {
+        screen: LoginNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='sign-in'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            ),
+        },
+    },
     Home: {
-      screen: HomeNavigator,
-      navigationOptions: {
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='home'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
+        screen: HomeNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='home'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            ),
+        },
+    },
+    Directory: {
+        screen: DirectoryNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='list'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        }
+    },
+    Reservation: {
+        screen: ReservationNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='tree'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        }
+    },
+    Favorites: {
+        screen: FavoritesNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        }
+    },
+    About: {
+        screen: AboutNavigator,
+        navigationOptions: {
+            drawerLabel: 'About Us',
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='info-circle'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        }
+    },
+    Contact: {
+        screen: ContactNavigator,
+        navigationOptions: {
+            drawerLabel: 'Contact Us',
+            drawerIcon: ({tintColor}) => (
+                <Icon
+                    name='address-card'
+                    type='font-awesome'
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        }
+    }
   },
-  Directory: {
-      screen: DirectoryNavigator,
-      navigationOptions: {
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='list'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
-  },
-  Reservation: {
-      screen: ReservationNavigator,
-      navigationOptions: {
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='tree'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
-  },
-  Favorites: {
-      screen: FavoritesNavigator,
-      navigationOptions: {
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='heart'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
-  },
-  About: {
-      screen: AboutNavigator,
-      navigationOptions: {
-          drawerLabel: 'About Us',
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='info-circle'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
-  },
-  Contact: {
-      screen: ContactNavigator,
-      navigationOptions: {
-          drawerLabel: 'Contact Us',
-          drawerIcon: ({tintColor}) => (
-              <Icon
-                  name='address-card'
-                  type='font-awesome'
-                  size={24}
-                  color={tintColor}
-              />
-          )
-      }
+  {
+    initialRouteName: "Home",
+    drawerBackgroundColor: '#CEC8FF',
+    contentComponent: CustomDrawerContentComponent,
+    unmountInactiveRoutes: true
   }
-},
-{
-  drawerBackgroundColor: '#CEC8FF',
-  contentComponent: CustomDrawerContentComponent
-}
 )
 
 const AppNavigator = createAppContainer(MainNavigator);
